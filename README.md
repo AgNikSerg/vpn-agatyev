@@ -25,9 +25,11 @@
   </a>
 </p>
 
-- USDT (TRC20): `TXncxkvhkDWGts487Pjqq1qT9JmwRUz8CC`
-- MATIC (polygon): `0x41C9548675D044c6Bfb425786C765bc37427256A`
-- LTC (Litecoin): `ltc1q2ach7x6d2zq0n4l0t4zl7d7xe2s6fs7a3vspwv`
+Самоподписанный сертификат
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout /root/vpn-agatyev/nginx/conf.d/certs/private.key \
+-out /root/vpn-agatyev/nginx/conf.d/certs/cert.crt \
+-subj "/C=RU/ST=Moscow/L=Moscow/O=Company/CN=agatev.ru"
 
 ## Install & Upgrade
 
