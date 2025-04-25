@@ -10,14 +10,15 @@ services:
       X_UI_ENABLE_FAIL2BAN: "true"
     tty: true
     ports:
-      - "2053:2053"
+      - "8443:2053"
+      - "443:443" 
     restart: unless-stopped
 
   nginx:
     image: nginx:latest
     container_name: nginx-proxy
     ports:
-      - "80:80"
+      - "8443:8443"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
     depends_on:
