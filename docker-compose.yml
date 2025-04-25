@@ -10,7 +10,6 @@ services:
       X_UI_ENABLE_FAIL2BAN: "true"
     tty: true
     ports:
-      - "8443:2053"
       - "443:443" 
     restart: unless-stopped
 
