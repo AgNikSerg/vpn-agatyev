@@ -18,8 +18,10 @@ services:
     container_name: nginx-proxy
     ports:
       - "8443:8443"
+      - "80:80"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/conf.d/certs:/etc/nginx/certs
     depends_on:
       - 3x-ui
     restart: unless-stopped
