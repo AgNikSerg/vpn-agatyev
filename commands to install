@@ -1,0 +1,85 @@
+
+bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)
+2053
+x-ui
+8
+y 
+sudo scp -i /home/mint/.ssh/id_ed25519 /home/mint/Загрузки/config.json root@195.133.67.187:/root/
+  cp config.json /usr/local/x-ui/bin/
+  cp x-ui.db /etc/x-ui
+
+apt install nginx -y
+systemctl stop nginx
+x-ui
+12
+18
+1
+freedom.agatev.ru
+80
+y
+0
+n
+0
+
+----
+[Sat Apr 26 10:18:19 UTC 2025] Installing key to: /root/cert/freedom.agatev.ru/privkey.pem
+[Sat Apr 26 10:18:19 UTC 2025] Installing full chain to: /root/cert/freedom.agatev.ru/fullchain.pem
+----
+cp -r ~/cert/freedom.agatev.ru/ /etc/nginx/cert/
+/etc/nginx/sites-enabled# rm default 
+/etc/nginx/sites-available# rm default 
+cd /etc/nginx/sites-available/
+nano freedom.agatev.ru.conf
+sudo ln -s /etc/nginx/sites-available/freedom.agatev.ru.conf /etc/nginx/sites-enabled/
+
+--
+
+server {
+    listen 80;
+    server_name freedom.agatev.ru;
+    return 301 https://freedom.agatev.ru:8443$request_uri;
+}
+
+server {
+    listen 8443 ssl;
+    server_name freedom.agatev.ru;
+
+    ssl_certificate /etc/nginx/cert/fullchain.pem;
+    ssl_certificate_key /etc/nginx/cert/privkey.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Range $http_range;
+        proxy_set_header If-Range $http_if_range;
+        proxy_redirect off;
+
+        proxy_pass http://127.0.0.1:2053;
+    }
+}
+
+--
+
+systemctl start nginx.service
+
+ufw install
+sudo ufw allow 22/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 443/udp
+sudo ufw allow 8443/tcp
+# может эти и не нужны
+# sudo ufw deny 2053/tcp
+# sudo ufw allow from 127.0.0.1 to any port 2053 proto tcp
+ufw enable
+
+
+
+
+
+
+
